@@ -168,9 +168,8 @@ pub fn linkWithLLD(self: *Coff, comp: *Compilation, prog_node: *std.Progress.Nod
         if (!self.base.options.strip) {
             try argv.append("-DEBUG");
 
-            const out_ext = std.fs.path.extension(full_out_path);
             const out_pdb = self.base.options.pdb_out_path orelse try allocPrint(arena, "{s}.pdb", .{
-                full_out_path[0 .. full_out_path.len - out_ext.len],
+                std.fs.path.stem(full_out_path),
             });
 
             try argv.append(try allocPrint(arena, "-PDB:{s}", .{out_pdb}));
